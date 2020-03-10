@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70" height="70" viewBox="0 0 70 70">
+  <defs>
+    <clipPath id="clip-Graph-linear">
+      <rect width="70" height="70"/>
+    </clipPath>
+  </defs>
+  <g id="Graph-linear" clip-path="url(#clip-Graph-linear)">
+    <path id="Path_1" data-name="Path 1" d="M5,5V65H65" fill="none" stroke="#fff" stroke-width="2"/>
+    <path id="Path_2" data-name="Path 2" d="M5,65,65,5" fill="none" stroke="#fff" stroke-width="1"/>
+  </g>
+</svg>

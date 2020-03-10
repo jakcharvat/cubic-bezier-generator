@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cubic Bezier Generator</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="row">
+        <div class="row--item first">
+            <div class="graph--wrapper">
+                <div class="graph" id="graph">
+                    <div class="graph--inner">
+                        <div class="graph--axis-y"></div>
+                        <div class="canvas">
+            
+                            <div class="point point--fixed"></div>
+                            <div class="point point--fixed"></div>
+                            
+                            <div class="point point--anchor first"></div>
+                            <div class="point point--anchor"></div>
+            
+                            <div class="connector first"></div>
+                            <div class="connector"></div>
+            
+                        </div>
+                    </div>
+                    <div class="graph--axis-x"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row--item">
+            <h1>Cubic Bezier Generator</h1>
+
+            <h3 id="display"></h3>
+
+            <div class="animations">
+                <p id="customLabel">Your animation</p>
+                <div class="animation custom"></div>
+                <p id="comparisonLabel">Comparison animation - linear</p>
+                <div class="animation comparison"></div>
+
+                <p id="timeIndicator">Animation Duration = 1.0s</p>
+
+                <div class="slider--wrapper">
+                    <div class="slider" id="timeSlider">
+                        <div class="slider--thumb" id="timeSliderThumb"></div>
+                    </div>
+                </div>
+
+                <div class="animations--button-row">
+                    <button class="ripple-button" id="showChoiceButton">Choose Comparison</button>
+                    <button class="ripple-button" id="runButton">Run Animations</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="choice-dialog">
+        <div class="choice-dialog--overlay" id="choiceOverlay">
+            <div class="choice-dialog--window">
+
+                <button class="choice-dialog--item ripple-button ripple-button__primary" data-function="linear">
+                    <div class="graph-placeholder" id="Graph-linear"></div>
+                    <p>Linear</p>
+                </button>
+                <button class="choice-dialog--item ripple-button ripple-button__primary" data-function="ease">
+                    <div class="graph-placeholder" id="Graph-ease"></div>
+                    <p>Ease</p>
+                </button>
+                <button class="choice-dialog--item ripple-button ripple-button__primary" data-function="ease-in">
+                    <div class="graph-placeholder" id="Graph-ease-in"></div>
+                    <p>Ease In</p>
+                </button>
+                <button class="choice-dialog--item ripple-button ripple-button__primary" data-function="ease-out">
+                    <div class="graph-placeholder" id="Graph-ease-out"></div>
+                    <p>Ease Out</p>
+                </button>
+                <button class="choice-dialog--item ripple-button ripple-button__primary" data-function="ease-in-out">
+                    <div class="graph-placeholder" id="Graph-ease-in-out"></div>
+                    <p>Ease In-Out</p>
+                </button>
+                <button class="choice-dialog--item ripple-button ripple-button__primary" data-function="steps(6, start)">
+                    <div class="graph-placeholder" id="Graph-step-6-start"></div>
+                    <p>Step 6-Start</p>
+                </button>
+                <button class="choice-dialog--item ripple-button ripple-button__primary" data-function="steps(6, end)">
+                    <div class="graph-placeholder" id="Graph-step-6-end"></div>
+                    <p>Step 6-End</p>
+                </button>
+                <button class="choice-dialog--item ripple-button ripple-button__primary" data-function="step-start">
+                    <div class="graph-placeholder" id="Graph-step-start"></div>
+                    <p>Step Start</p>
+                </button>
+                <button class="choice-dialog--item ripple-button ripple-button__primary" data-function="step-end">
+                    <div class="graph-placeholder" id="Graph-step-end"></div>
+                    <p>Step End</p>
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.mjs" type="module"></script>
+</body>
+</html>

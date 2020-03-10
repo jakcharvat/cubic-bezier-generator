@@ -1,0 +1,320 @@
+@import 'colors.scss';
+@import 'ripple-button.scss';
+@import 'mixins.scss';
+
+
+:root {
+    --graph-container-width: calc(100vw / 3);
+    --custom-timing-function: cubic-bezier(0.33, 0.00, 0.66, 1.00);
+    --comparison-timing-function: linear;
+    --animation-duration: 1s;
+}
+
+body {
+    @include user-select(none);
+    background: var(--background-color);
+}
+
+.graph--wrapper {
+    .graph {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+
+        .graph--inner {
+            display: flex;
+            flex-direction: row;
+
+            .graph--axis-y {
+                width: 2px;
+                background: var(--opposite-color);
+            }
+            
+            .canvas {
+                position: relative;
+                width: calc(var(--graph-container-width) - 100px);
+                height: calc(var(--graph-container-width) - 100px);
+
+                .point {
+                    width: 10px;
+                    height: 10px;
+                    position: absolute;
+                    background: #AAA;
+                    border: 2px solid var(--opposite-color);
+                    border-radius: 100%;
+                    transform: translate(-50%, -50%);
+                }
+
+                .point--fixed:nth-child(1) {
+                    left: 0;
+                    top: 100%;
+                }
+                .point--fixed:nth-child(2) {
+                    left: 100%;
+                    top: 0;
+                }
+
+                .point--anchor {
+                    background: var(--background-color);
+                    cursor: move;
+                }
+                .point--anchor:nth-child(3) {
+                    left: 33%;
+                    top: 100%;
+                }
+                .point--anchor:nth-child(4) {
+                    left: 66%;
+                    top: 0;
+                }
+
+                .connector {
+                    z-index: -1;
+                    position: absolute;
+                    width: 100px;
+                    height: 1px;
+                    background: #AAA;
+                    transform: translate(-50%, -50%) scale(0);
+                }
+
+                .canvas--point {
+                    position: absolute;
+                    width: 3px;
+                    height: 3px;
+                    border-radius: 100%;
+                    background: var(--opposite-color);
+                    z-index: -1;
+                    transform: translate(-50%, -50%);
+                }
+            }
+        }
+
+        .graph--axis-x {
+            height: 2px;
+            background: var(--opposite-color);
+        }
+    }
+}
+
+.row {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: filter .3s ease;
+    filter: none;
+
+    .row--item {
+        height: 100%;
+
+        &.first {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: calc(100% / 3);
+        }
+
+        &:not(.first) {
+            width: calc(100% / 3 * 2);
+            background: var(--primary-color);
+            color: var(--background-color);
+            font-family: 'Futura', sans-serif;
+            text-align: end;
+
+            h1 {
+                font-size: 4.3vw;
+                margin: 40px;
+                font-weight: 900;
+            }
+
+            h3 {
+                font-size: 2vw;
+                font-weight: 300;
+                margin: 40px;
+                @include user-select(auto);
+            }
+
+            .animations {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                padding: 40px;
+                padding-top: 0;
+                box-sizing: border-box;
+
+                .ripple-button {
+                    margin: 0;
+                    margin-top: 40px;
+
+                    &:nth-child(1) {
+                        margin-right: 8px;
+                    }
+                }
+
+                p {
+                    margin-top: 20px;
+                    margin-bottom: 4px;
+                    padding-right: 12px;
+
+                    &:nth-child(1) {
+                        margin-top: 0;
+                    }
+                }
+
+                .animation {
+                    position: relative;
+                    height: 40px;
+                    width: 100%;
+                    // border-radius: 10px;
+                    border: 5px solid var(--background-color);
+                    border-left: none;
+                    border-right: none;
+                    
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        left: calc(100% - 50px);
+                        top: 0;
+                        background: var(--background-color);
+                        height: 100%;
+                        width: 40px;
+                        transition: left var(--animation-duration);
+                    }
+
+                    &:nth-child(2)::before {
+                        transition-timing-function: var(--custom-timing-function);
+                    }
+                    &:nth-child(4)::before {
+                        transition-timing-function: var(--comparison-timing-function);
+                    }
+
+                    &.left::before {
+                        left: 10px;
+                        right: auto;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.choice__shown .row {
+    filter: blur(2px);
+}
+
+.choice__shown .choice-dialog {
+    opacity: 1;
+    pointer-events: all;
+    
+    .choice-dialog--overlay .choice-dialog--window {
+        transform: translateY(0);
+        @include BoxShadow(24);
+    }
+}
+
+.choice-dialog {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    position: fixed;
+    opacity: 0;
+    transition: all .3s ease;
+    pointer-events: none;
+    
+    .choice-dialog--overlay {
+        background: #0004;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        .choice-dialog--window {
+            transform: translateY(30px);
+            padding: 16px;
+            background: var(--primary-color);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: min(calc(100vw - 100px), 600px);
+            flex-wrap: wrap;
+            transition: all .3s ease;
+            @include BoxShadow(0);
+
+            .choice-dialog--item {
+                padding: 12px;
+                width: 100px;
+                // height: 140px;
+                margin: 10px;
+                color: var(--background-color);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                p {
+                    margin: 0;
+                    margin-top: 4px;
+                }
+
+                svg path {
+                    stroke: var(--background-color);
+                }
+            }
+        }
+    }
+}
+
+.slider--wrapper {
+    width: 100%;
+    margin-top: 10px;
+
+    .slider {
+        position: relative;
+        height: 3px;
+        background: var(--background-color);
+
+        .slider--thumb {
+            transition: left 0.1s ease;
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 100%;
+            border: 3px solid var(--background-color);
+            background: var(--primary-color);
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            cursor: ew-resize;
+        }
+    }
+}
+
+// .slider {
+//     width: 100%;
+//     height: 5px;
+//     margin: 20px 0 0 0;
+//     background: var(--background-color);
+//     position: relative;
+
+//     .slider--thumb {
+//         width: 15px;
+//         height: 15px;
+//         top: 0;
+//         left: 0;
+//         transform: translate(-50%, -50%);
+//         background: var(--primary-color);
+//         border-radius: 100%;
+//         border: 5px solid var(--background-color);
+//         cursor: pointer;
+//         position: absolute;
+//     }
+// }
