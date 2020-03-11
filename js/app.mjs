@@ -29,7 +29,7 @@ async function getGraphs() {
 
     els.forEach(async el => {
         const graphName = el.id
-        const url = `../assets/${graphName}.svg`
+        const url = `./assets/${graphName}.svg`
         const parent = el.parentElement
         
         const file = await fetch(url)
