@@ -121,23 +121,23 @@ export default class CubicBezier {
             }
         })
 
-        this.canvas.addEventListener('mousedown', e => {
+        this.canvas.onmousedown = e => {
             const target = e.target
 
             if (target.classList.contains('point--anchor')) {
                 this.draggedAnchor = target
             }
-        })
+        }
 
-        document.addEventListener('mousemove', e => {
+        document.onmousemove = e => {
             this.anchorMouseMove(e)
             this.sliderMove(e)
-        })
+        }
 
-        document.addEventListener('mouseup', e => {
+        document.onmouseup = e => {
             this.draggedAnchor = null
             this.sliderDown = false
-        })
+        }
     }
 
     anchorMouseMove(e) {
@@ -170,7 +170,7 @@ export default class CubicBezier {
         const rect = timeSlider.getBoundingClientRect()
 
         if (this.sliderDown) {
-            const offset = Math.min(rect.width, Math.max(0, e.screenX - rect.left))
+            const offset = Math.min(rect.width, Math.max(0, e.clientX - rect.left))
             
             const decimal = offset / rect.width
             const index = Math.min(14, Math.max(0, Math.floor(decimal * 14 + 0.5)))
@@ -246,15 +246,30 @@ export default class CubicBezier {
 
     drawCurve() {
 
+        const dots = 500
+
+        if (this.points.length === dots) {
+            // Loop through the points and just move them
+            for (let i = 0; i < this.points.length; i++) {
+                const point = this.points[i]
+                const t = i / dots
+                const coords = this.getPoints(this.getBezierPoint(t))
+                point.style.left = `${coords[0]}px`
+                point.style.top = `${this.height - coords[1]}px`
+            }
+            
+            return
+        }
+
+        // Points array length doesn't match our target length, so empty it and re-generate it
+        // from scratch. This should really only happen the first time the graph is rendered
         for (const point of this.points) {
             point.remove()
         }
         
         this.points = []
 
-        const dots = 500
-
-        for (let i = 0; i <= dots; i ++) {
+        for (let i = 0; i < dots; i ++) {
             const t = i / dots
             const coords = this.getPoints(this.getBezierPoint(t))
             const point = document.createElement('div')
